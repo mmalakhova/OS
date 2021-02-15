@@ -19,5 +19,5 @@ int main(void)
            sp->tm_hour , sp->tm_min,
            tzname[sp->tm_isdst]);
 
-    return EXIT_SUCCESS;
+    return 0;
 }
