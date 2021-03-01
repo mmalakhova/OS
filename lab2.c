@@ -8,11 +8,11 @@ int main(void)
 {
     time_t now;
     struct tm* sp;
-    if (putenv("TZ=PST8PDT")) {
-        fprintf(stderr, "Can't change TZ variable.\n");
-        perror("putenv");
+    int result;
+    result = putenv("TZ=PST8PDT");
+    if (result != 0) {
+        perror("The following error occurred");
     }
-
     (void)time(&now);
 
     printf("%s", ctime(&now));
@@ -23,5 +23,5 @@ int main(void)
         sp->tm_hour, sp->tm_min,
         tzname[sp->tm_isdst]);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
