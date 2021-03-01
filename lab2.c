@@ -8,7 +8,11 @@ int main(void)
 {
     time_t now;
     struct tm *sp;
-    putenv("TZ=PST8PDT");
+    if ( putenv("TZ=PST8PDT")){
+        fprintf(stderr, "Can't change TZ variable.\n");
+        perror("putenv");
+    }
+    
     (void)time(&now);
 
     printf("%s", ctime(&now));
