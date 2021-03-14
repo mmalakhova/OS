@@ -1,66 +1,87 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
-typedef struct list {
-    char* string;
-    struct list* next;
-} List;
+#define ERROR -1
+#define SUCCESS 0
 
-List* new_node(List* head, char* str)
+typedef struct LinkedList
 {
-    List* t = NULL;
-    if (head == NULL) {
-        head = (List*)malloc(sizeof(List));
-        head->string = (char*)malloc(strlen(str));
-        strcpy(head->string, str);
-        head->next = NULL;
-        return head;
-    }
-    t = (List*)malloc(sizeof(List));
-    t->string = (char*)malloc(strlen(str) + 1);
-    strcpy(t->string, str);
-    t->next = head;
+    char *value;
+    struct LinkedList *next;
+} LinkedList;
 
-    return t;
-}
-List* reverse(List* head)
+LinkedList *MakeNode(char *value)
 {
-    List* p = NULL;
-    List* t = NULL;
-    while (head) {
-        p = head;
-        head = head->next;
-        p->next = t;
-        t = p;
+    LinkedList *newNode;
+    if ((newNode = (LinkedList *)malloc(sizeof(LinkedList))) == NULL)
+    {
+        return NULL;
     }
-    return t;
+
+    if ((newNode->value = (char *)malloc(strlen(value) + 1)) == NULL)
+    {
+        return NULL;
+    }
+
+    strcpy(newNode->value, value);
+    newNode->next = NULL;
+
+    return newNode;
 }
 
-int main()
-{
-    List* head = NULL;
-    char tmp[256];
 
-    for (;;) {
-        gets(tmp);
-        if (tmp[0] == '.') {
-            head = new_node(head, tmp);
-            break;
+int ReadLinesToLinkedList(LinkedList *head)
+{
+    char buffer[BUFSIZ] = ""; 
+    LinkedList *move = head;
+
+    do
+    {
+        printf("> ");
+        scanf("%s", buffer);
+
+        if ((move->next = MakeNode(buffer)) == NULL)
+        {
+            return ERROR;
         }
-        head = new_node(head, tmp);
+
+        move = move->next;
+    } while (buffer[0] != '.');
+
+    return SUCCESS;
+}
+
+void PrintLines(LinkedList *head)
+{
+    LinkedList *move = NULL;
+
+    for (LinkedList *move = head->next; move != NULL; move = move->next)
+    {
+        puts(move->value);
+    }
+}
+
+int main(int argc, char **argv)
+{
+    LinkedList *head = NULL;
+
+    if ((head = (LinkedList *)malloc(sizeof(LinkedList))) == NULL)
+    {
+        perror(argv[0]);
+        return ENOMEM; // ENOMEM stands for Error NO MEMory
     }
 
-    printf("\nList:\n");
-    head = reverse(head);
-    List* t = NULL;
+    head->next = NULL;
 
-    while (head != NULL) {
-        printf("	%s\n", head->string);
-        t = head->next;
-        free(head->string);
-        free(head);
-        head = t;
+    if (ReadLinesToLinkedList(head) == ERROR)
+    {
+        perror(argv[0]);
+        return ENOMEM;
     }
-    return 0;
+
+    PrintLines(head);
+
+    return EXIT_SUCCESS;
 }
