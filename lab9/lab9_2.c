@@ -20,14 +20,14 @@ int main(int argc, char *argv[])
 
 	if (process_id == ERROR)
 	{
-		perror("Fork error: ");
+		perror("Fork error");
 		return EXIT_FAILURE;
 	}
 
 	if (process_id == CHILD_ID)
 	{
 		execl("/bin/cat", "cat", argv[1], NULL);
-		perror("Execl error: ");
+		perror("Execl error");
 		return EXIT_FAILURE;
 	}
 
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
 	if (ended_process_id == ERROR)
 	{
-		perror("TIMEOUT ERROR: ");
+		perror("TIMEOUT ERROR");
 		return EXIT_FAILURE;
 	}
 
