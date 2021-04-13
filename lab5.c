@@ -33,7 +33,7 @@ int BuildLinesOffsetsTable(int fileDescriptor, long *linesOffsets, int *linesLen
         // On error, -1 is returned, and errno is set appropriately.  In this case, it is left unspecified whether the file position (if any) changes.
         if (readReturnCode == ERROR)
         {
-            perror("Reading Error: ");
+            perror("Reading Error");
             exit(EXIT_FAILURE);
         }
 
@@ -64,8 +64,8 @@ int BuildLinesOffsetsTable(int fileDescriptor, long *linesOffsets, int *linesLen
         int currentLineOffset = lseek(fileDescriptor, 0L, SEEK_CUR);
 
         if (currentLineOffset == LSEEK_ERROR)
-        { // the value (off_t) -1 is returned and errno is set to indicate the error.
-            perror("Lseek Error: ");
+        { // the value (off_t) - 1 is returned and errno is set to indicate the error.
+            perror("Lseek Error");
             exit(EXIT_FAILURE);
         }
 
@@ -80,7 +80,7 @@ void PrintLine(int fileDescriptor, int lineOffset, int linesLength)
 {
     int currentLineOffset = lseek(fileDescriptor, lineOffset, SEEK_SET); // перемещаем текущую позицию чтения на lineOffset
     if ( currentLineOffset == LSEEK_ERROR){
-        perror("Lseek Error: ");
+        perror("Lseek Error");
         exit(EXIT_FAILURE);
     }
 
@@ -90,13 +90,13 @@ void PrintLine(int fileDescriptor, int lineOffset, int linesLength)
 
         if (read(fileDescriptor, &currentChar, 1) == ERROR)
         {
-            perror("Reading Error: ");
+            perror("Reading Error");
             exit(EXIT_FAILURE);
         }
 
         if (write(STDOUT_FILENO, &currentChar, 1) == ERROR)
         {
-            perror("Writing Error: ");
+            perror("Writing Error");
             exit(EXIT_FAILURE);
         }
     }
