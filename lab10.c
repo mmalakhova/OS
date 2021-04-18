@@ -7,10 +7,12 @@
 #define CHILD_ID 0
 #define FORK_ERROR -1
 #define WAIT_ERROR -1
+#define SUBPROCESS_ERROR 0
+#define NOT_TERMINATED_BY_SIGNAL 0
 
 int main(int argc, char* argv[])
 {
-    if (argc < 2) {
+    if (argc != 3) {
         fprintf(stderr, "Usage: %s [executable] <args>\n", argv[0]);
         return EXIT_FAILURE;
     }
@@ -18,7 +20,7 @@ int main(int argc, char* argv[])
     pid_t process_id = fork();
 
     if (process_id == FORK_ERROR) {
-        perror("Fork error: ");
+        perror("Fork error");
         return EXIT_FAILURE;
     }
 
@@ -27,7 +29,7 @@ int main(int argc, char* argv[])
         // Последний аргумент (argv [n]) должен быть указателем NULL;
         // p (path). Обозначенный по имени файл ищется не только в текущем каталоге, но и в каталогах, определенных переменной среды PATH;
         execvp(argv[1], &argv[1]);
-        perror("Exec error: ");
+        perror("Exec error");
         return EXIT_FAILURE;
     }
 
@@ -35,18 +37,18 @@ int main(int argc, char* argv[])
     pid_t ended_process_id = wait(&status);
 
     if (ended_process_id == WAIT_ERROR) {
-        perror("Wait: ");
+        perror("Wait");
         return EXIT_FAILURE;
     }
 
-    if (WIFEXITED(status)) {
+    if (WIFEXITED(status) != SUBPROCESS_ERROR) {
         // WIFEXITED(wstatus) returns true if the child terminated normally, that is, by calling exit(3) or _exit(2), or by returning from main().
         printf("\nChild process %d ended by exit, return's code: %d\n\n", ended_process_id, WEXITSTATUS(status));
         // WEXITSTATUS(wstatus) returns the exit status of the child.
         return EXIT_SUCCESS;
     }
 
-    if (WIFSIGNALED(status)) {
+    if (WIFSIGNALED(status) != NOT_TERMINATED_BY_SIGNAL) {
         printf("\nChild process %d ended by signal, signal: %d\n\n", ended_process_id, WTERMSIG(status));
         // WTERMSIG(wstatus) returns the number of the signal that caused the child process to terminate.
         return EXIT_SUCCESS;
