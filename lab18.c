@@ -140,7 +140,7 @@ void print_file_info(char* filename)
 {
     struct stat status;
 
-    if (stat(filename, &status) == -1) {
+    if (stat(filename, &status) == STAT_ERROR) {
         perror(filename);
         return;
     }
