@@ -31,7 +31,7 @@ int main(int argc, char* argv[], char* envp[]) {
         perror("Environment is not set");
     }
 
-    if(putenv("TEST=os_lab11") != PUTENV_SUCCESS){
+    if(putenv("TZ=PST8PDT") != PUTENV_SUCCESS){
         perror("putenv error");
 	return EXIT_FAILURE;
     }
