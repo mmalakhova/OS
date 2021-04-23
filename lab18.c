@@ -34,18 +34,6 @@
 #define STAT_ERROR -1
 #define NO_INFO "?"
 
-struct stat get_file_status(char* filename)
-{
-    struct stat status;
-
-    if (stat(filename, &status) == STAT_ERROR) {
-        perror(filename);
-        exit(EXIT_FAILURE);
-    }
-
-    return status;
-}
-
 char* get_file_access_rights(struct stat* status, char* access_rights)
 {
     char rights_symbols[RIGHTS_SYMBS_NUM] = { 'r', 'w', 'x' };
