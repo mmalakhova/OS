@@ -23,7 +23,6 @@ int execvpe(char* file, char* argv[], char* envp[])
 
 int main(int argc, char* argv[], char* envp[])
 {
-
     if (argc < 2) {
         fprintf(stderr, "Usage: %s [executable] <args>\n", argv[0]);
         return EXIT_FAILURE;
