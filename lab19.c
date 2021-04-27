@@ -44,8 +44,8 @@ void print_matched_files(char* mask)
 
 int main(int argc, char** argv)
 {
-    if (argc < 1) {
-        fprintf(stderr, "Usage: %s [executable] <args>\n", argv[0]);
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s <args>\n", argv[0]);
         return EXIT_FAILURE;
     }
 
