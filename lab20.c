@@ -26,7 +26,7 @@ void print_matched_files(char* mask)
     if (glob_status != GLOB_SUCCESS) {
         perror("GLOB");
         globfree(&glob_results);
-        exit(EXIT_FAILURE);
+        return EXIT_FAILURE;
     }
 
     // При успешном завершении работы pglob->gl_pathc содержит количество найденных совпадений имен, а pglob->gl_pathv указывает на список найденных имен.
@@ -47,10 +47,11 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    int i;
+    int i, print_info;
     for (i = 1; i < argc; ++i)
     {
-        print_matched_files(argv[i]);
+       print_info = print_matched_files(argv[i]);
+       if (print_info == EXIT_FAILURE) return EXIT_FAILURE;
     }
 
     return EXIT_SUCCESS;
