@@ -38,19 +38,13 @@ void read_template(char* mask)
     mask[length] = '\0';
 }
 
-int errFunc(const char* epath, int errno)
-{
-    fprintf(stderr, "Glob error. Couldn't check for matching: %s\n", epath);
-    return EXIT_FAILURE;
-}
-
 void print_matched_files(char* mask)
 {
     glob_t glob_results;
 
     // Параметр flags является нулем или поразрядным ИЛИ нескольких следующих символьных констант, которые меняют ход работы glob():
     // GLOB_NOCHECK - если не найдено совпадений по шаблону, то возвращать в качестве результата заданный шаблон;
-    int glob_status = glob(mask, GLOB_NOCHECK, errFunc, &glob_results);
+    int glob_status = glob(mask, GLOB_NOCHECK, NULL, &glob_results);
 
     // При нормальном завершении glob() возврашает ноль.
     // Другие возможные возвращаемые значения: GLOB_NOSPACE, GLOB_ABORTED, GLOB_NOMATCH
