@@ -37,6 +37,7 @@ int print_matched_files(char* mask)
     }
 
     globfree(&glob_results);
+    return EXIT_SUCCESS;
 }
 
 int main(int argc, char* argv[])
