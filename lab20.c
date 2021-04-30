@@ -13,7 +13,7 @@ int errFunc(const char* epath, int errno)
     return EXIT_FAILURE;
 }
 
-void print_matched_files(char* mask)
+int print_matched_files(char* mask)
 {
     glob_t glob_results;
 
