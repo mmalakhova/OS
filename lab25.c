@@ -102,7 +102,6 @@ void wait_subprocesses()
         int ended_process_id = wait(&status);
 
         if (ended_process_id == ERROR && errno == ECHILD) {
-            exit(EXIT_SUCCESS);
             break;
         }
 
