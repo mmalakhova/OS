@@ -25,18 +25,18 @@ int initialize_writing_proc(FILE* reader)
 
         if (bytes_read == ERROR) {
             perror("Reading from stdin");
-            exit(EXIT_FAILURE);
+            return EXIT_FAILURE;
         }
 
         fputc_status = fputc(symbol, reader);
         if (fputc_status == EOF) {
             perror("Writing to pipe");
-            exit(EXIT_FAILURE);
+            return EXIT_FAILURE;
         }
     }
     pclose(reader);
 
-    exit(EXIT_SUCCESS);
+    return EXIT_SUCCESS;
 }
 
 int main(int argc, char** argv)
@@ -47,7 +47,9 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    initialize_writing_proc(reader);
+    int status = initialize_writing_proc(reader);
+    if (status == EXIT_FAILURE)
+        return EXIT_FAILURE;
 
     pclose(reader);
 
