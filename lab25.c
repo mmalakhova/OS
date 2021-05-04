@@ -107,11 +107,11 @@ int main(int argc, char** argv)
 
     if (waitpid(writing_subprocess, NULL, 0) == (pid_t)ERROR) {
         perror("WAITPID ERROR");
-        return ERROR;
+        return EXIT_FAILURE;
     }
     if (waitpid(reading_subprocess, NULL, 0) == (pid_t)ERROR) {
         perror("WAITPID ERROR");
-        return ERROR;
+        return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
 }
