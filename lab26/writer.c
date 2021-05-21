@@ -51,7 +51,8 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
 
     int closing_pipe_status = pclose(reader);
-    if (closing_pipe_status == ERROR) return EXIT_FAILURE
+    if (closing_pipe_status == ERROR) 
+        return EXIT_FAILURE
 
     return EXIT_SUCCESS;
 }
