@@ -29,7 +29,11 @@ int main(int argc, char** argv)
         }
     }
 
-    write(STDOUT_FILENO, "\n", sizeof(char));
+    int last_symbol_wrote = write(STDOUT_FILENO, "\n", sizeof(char));
+    if (bytes_wrote == ERROR) {
+            perror("Writing to stdout");
+            return EXIT_FAILURE;
+        }
 
     return EXIT_SUCCESS;
 }
