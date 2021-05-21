@@ -34,7 +34,6 @@ int initialize_writing_proc(FILE* reader)
             return EXIT_FAILURE;
         }
     }
-    pclose(reader);
 
     return EXIT_SUCCESS;
 }
@@ -51,7 +50,8 @@ int main(int argc, char** argv)
     if (status == EXIT_FAILURE)
         return EXIT_FAILURE;
 
-    pclose(reader);
+    int closing_pipe_status = pclose(reader);
+    if (closing_pipe_status == ERROR) return EXIT_FAILURE
 
     return EXIT_SUCCESS;
 }
